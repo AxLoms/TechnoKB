@@ -16,8 +16,7 @@ class Category(models.Model):
 class Product(models.Model):
     name = models.CharField("Названия",max_length=100)
     category = models.ForeignKey(Category,on_delete=models.CASCADE, verbose_name="Категория")
-    description = models.CharField("Описание",max_length=300)
-    images = models.ImageField("Фотография",upload_to="product", blank=True, null=True)
+    description = models.CharField("Описание",max_length=300)    
     count = models.PositiveSmallIntegerField("Количество на текущий момент",default=0)
     total_count = models.PositiveBigIntegerField("Общая количество", default=0)
     average_price = models.FloatField("Средняя цена", default=0)
@@ -32,7 +31,13 @@ class Product(models.Model):
         verbose_name = "продукт"
         verbose_name_plural = "Продукты"
 
+class ProductPhoto(models.Model):
+    image = models.ImageField("Фотография",upload_to="product", blank=True, null=True)
+    product = models.ForeignKey(Product,on_delete=models.CASCADE, verbose_name="Продукт")
     
+    def __str__(self):
+        return f"Фотография:{self.id} "
+
 class Transaction(models.Model):
     COMING = "Приход"
     LEAVING = "Уход"
@@ -79,7 +84,7 @@ def update_product_total_count(sender, instance, **kwargs):
         product.in_stock = "Да"
     else:
         product.in_stock = "Нет"
-    
+        
     product.save() 
     
     
