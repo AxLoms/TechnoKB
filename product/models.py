@@ -21,7 +21,11 @@ class Product(models.Model):
     total_count = models.PositiveBigIntegerField("Общая количество", default=0)
     average_price = models.FloatField("Средняя цена", default=0)
     in_stock = models.CharField("В наличии", default="Нет", max_length=3, choices=(("Да","Да"),("Нет","Нет")))
+    created_at = models.DateTimeField("Дата",auto_now_add=True)
+    amount_of_transaction = models.PositiveSmallIntegerField("Количество транзакций", default=0)
     is_publiched = models.CharField("Опубликовано", default="Нет", max_length=3, choices=(("Да","Да"),("Нет","Нет")))
+    
+
     
     
     def __str__(self):
@@ -67,7 +71,8 @@ def update_product_total_count(sender, instance, **kwargs):
     
     product.average_price = 0
     product.count = 0 
-    product.total_count = 0   
+    product.total_count = 0 
+    product.amount_of_transaction = 0  
     for transaction in transactions:       
         
         if transaction.action == transaction.COMING:
@@ -76,7 +81,8 @@ def update_product_total_count(sender, instance, **kwargs):
             product.count += transaction.count
             
         if transaction.action == transaction.LEAVING:
-            product.count -= transaction.count    
+            product.count -= transaction.count
+            product.amount_of_transaction += 1     
 
     product.average_price /= product.total_count 
     product.average_price = round(product.average_price) 
