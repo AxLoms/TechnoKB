@@ -23,10 +23,7 @@ class Product(models.Model):
     in_stock = models.CharField("В наличии", default="Нет", max_length=3, choices=(("Да","Да"),("Нет","Нет")))
     created_at = models.DateTimeField("Дата",auto_now_add=True)
     amount_of_transaction = models.PositiveSmallIntegerField("Количество транзакций", default=0)
-    is_publiched = models.CharField("Опубликовано", default="Нет", max_length=3, choices=(("Да","Да"),("Нет","Нет")))
-    
-
-    
+    is_published = models.CharField("Опубликовано", default="Нет", max_length=3, choices=(("Да","Да"),("Нет","Нет")))
     
     def __str__(self):
         return f"{self.name}"

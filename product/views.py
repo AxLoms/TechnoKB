@@ -11,8 +11,7 @@ def products(request):
     category_id = request.GET.get('category') 
     order = request.GET.get('order')          
     category = "Все категории"
-    products = Product.objects.filter(is_publiched = "Да", count__gt = 0) 
-    
+    products = Product.objects.filter(is_published = "Да", count__gt = 0) 
     
     
       

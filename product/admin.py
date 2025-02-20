@@ -19,7 +19,7 @@ class AdminPhoto(admin.TabularInline):
 class ProductAdmin(admin.ModelAdmin):
     inlines = [AdminPhoto,TransactionAdmin]
     
-    list_display = ('name','category','count','in_stock','is_publiched','created_at','amount_of_transaction',)
+    list_display = ('name','category','count','in_stock','is_published','created_at','amount_of_transaction',)
     search_fields = ('name',)
     list_filter = ('category','in_stock',)    
     ordering = ('name',)
