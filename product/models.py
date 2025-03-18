@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
+from order.models import Order
 # Create your models here.
 class Category(models.Model):
     name = models.CharField("Названия",max_length=100)
@@ -12,11 +12,12 @@ class Category(models.Model):
     class Meta:
         verbose_name = "категорию"
         verbose_name_plural = "Категории"
+        ordering = ["name"]
 
 class Product(models.Model):
     name = models.CharField("Названия",max_length=100)
-    category = models.ForeignKey(Category,on_delete=models.CASCADE, verbose_name="Категория")
-    description = models.CharField("Описание",max_length=300)    
+    category = models.ForeignKey(Category,on_delete=models.SET_NULL, verbose_name="Категория",blank=True, null=True)
+    description = models.CharField("Описание",max_length=300,blank=True, null=True)    
     count = models.PositiveSmallIntegerField("Количество на текущий момент",default=0)
     total_count = models.PositiveBigIntegerField("Общая количество", default=0)
     average_price = models.FloatField("Средняя цена", default=0)
@@ -31,6 +32,7 @@ class Product(models.Model):
     class Meta:
         verbose_name = "продукт"
         verbose_name_plural = "Продукты"
+        ordering = ["name"]
 
 class ProductPhoto(models.Model):
     image = models.ImageField("Фотография",upload_to="product", blank=True, null=True)
@@ -51,6 +53,7 @@ class Transaction(models.Model):
     count = models.PositiveSmallIntegerField("Количество",default=0)
     price = models.FloatField("Цена")
     created_at = models.DateTimeField("Дата",auto_now_add=True)
+    order = models.ForeignKey(Order,verbose_name="Заказ", on_delete=models.CASCADE, blank=True, null=True)
     
     def __str__(self):
         return f"{self.action} {self.product.name}, количество: {self.count}, цена: {self.price}"

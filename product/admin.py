@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category,Product,Transaction,ProductPhoto
+from product.models import Category,Product,Transaction,ProductPhoto
 # Register your models here.
 
 admin.site.site_header = 'Администрация TechnoKB'
@@ -10,13 +10,15 @@ class TransactionAdmin(admin.TabularInline):
     model = Transaction
     list_display = ('created_at',)
     readonly_fields = ('created_at',)  
-    extra = 0  
+    extra = 1  
 
 class AdminPhoto(admin.TabularInline):
     model = ProductPhoto
-    
+    extra = 1
+
 
 class ProductAdmin(admin.ModelAdmin):
+    
     inlines = [AdminPhoto,TransactionAdmin]
     
     list_display = ('name','category','count','in_stock','is_published','created_at','amount_of_transaction',)
@@ -27,7 +29,7 @@ class ProductAdmin(admin.ModelAdmin):
 
     class Meta:
         model = Product
-
+       
 
 
 
