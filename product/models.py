@@ -2,10 +2,15 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from order.models import Order
+from mptt.models import MPTTModel, TreeForeignKey
 # Create your models here.
-class Category(models.Model):
+class Category(MPTTModel):
     name = models.CharField("Названия",max_length=100)
-    
+    parent = TreeForeignKey("self", on_delete=models.CASCADE, null=True, blank=True, related_name="children")
+
+    class MPTTMeta:
+        order_insertion_by = ['name']
+
     def __str__(self):
         return f"{self.name}"
     

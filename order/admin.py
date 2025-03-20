@@ -11,5 +11,9 @@ class OrderAdmin(admin.ModelAdmin):
     model = Order
     inlines = [TransactionAdmin]
 
+
+
 admin.site.register(Order,OrderAdmin)
+
+
 

@@ -1,5 +1,6 @@
 from django.contrib import admin
 from product.models import Category,Product,Transaction,ProductPhoto
+from mptt.admin import MPTTModelAdmin
 # Register your models here.
 
 admin.site.site_header = 'Администрация TechnoKB'
@@ -33,7 +34,7 @@ class ProductAdmin(admin.ModelAdmin):
 
 
 
-admin.site.register(Category)
+admin.site.register(Category,MPTTModelAdmin)
 admin.site.register(Product,ProductAdmin)
 
 
